@@ -1,30 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Discover Pune's hidden gems - mysterious places, scary roads, beautiful treks, and cozy cafes"
-    />
-    <title>Pune Hidden Gems 🏛️👻</title>
-    <style>
-      body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-          sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-      }
-    </style>
+    <title>15-Minute Mental Detox</title>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <header class="app-header">
+      <h1>15-Minute Mental Detox</h1>
+      <p class="subtitle">Pick how you feel; get calm in 15 minutes.</p>
+    </header>
+
+    <main class="container">
+      <section class="controls">
+        <label for="categorySelect" class="sr-only">Choose category</label>
+        <select id="categorySelect" aria-label="Choose category"></select>
+        <button id="showBtn" class="btn primary" aria-label="Show content">Show</button>
+        <button id="randomBtn" class="btn" aria-label="Randomize content">Randomize</button>
+      </section>
+
+      <section class="timer">
+        <div class="timer-row">
+          <span>Session Timer:</span>
+          <strong id="timerDisplay">15:00</strong>
+        </div>
+        <div class="timer-actions">
+          <button id="startTimerBtn" class="btn">Start</button>
+          <button id="stopTimerBtn" class="btn">Stop</button>
+          <button id="resetTimerBtn" class="btn">Reset</button>
+        </div>
+      </section>
+
+      <section id="contentCard" class="card hidden" aria-live="polite">
+        <div class="card-section">
+          <h2 id="issueLabel" class="issue"></h2>
+        </div>
+        <div class="card-section">
+          <h3>Quote</h3>
+          <blockquote id="quoteText"></blockquote>
+        </div>
+        <div class="card-section">
+          <h3>Tip</h3>
+          <p id="tipText"></p>
+        </div>
+        <div class="card-section">
+          <h3>Video</h3>
+          <div class="video-wrapper">
+            <iframe id="videoFrame" title="Guided video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+          <p class="alt-link">If the video does not load, <a id="videoLink" target="_blank" rel="noopener noreferrer">open on YouTube</a>.</p>
+        </div>
+        <div class="card-section optional" id="musicSection" hidden>
+          <h3>Optional Music</h3>
+          <a id="musicLink" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+        <div class="card-actions">
+          <button id="favBtn" class="btn">Add to Favorites</button>
+        </div>
+      </section>
+
+      <section class="favorites">
+        <div class="favorites-header">
+          <h2>Favorites</h2>
+          <button id="clearFavsBtn" class="btn danger">Clear All</button>
+        </div>
+        <div id="favoritesList" class="favorites-list"></div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <small>For wellbeing support only; not a substitute for professional care.</small>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
   </body>
 </html>
