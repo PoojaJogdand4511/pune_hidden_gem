@@ -1,128 +1,84 @@
-# 🏛️ Pune Hidden Gems
+# Mental Detox – Flask + Streamlit
 
-A beautiful React web application to discover Pune's hidden places, scary roads, mysterious locations, treks, and cafes based on your preferred vibe.
+A simple full-stack app that serves a mental wellness dataset from a CSV via Flask and displays random entries in a Streamlit UI.
 
-## ✨ Features
+## Project Structure
 
-- **Category Filtering**: Hidden Hangouts, Scary Roads, Treks, Mysterious Places, Cafes & Food
-- **👻 Spooky Mode**: Filter for haunted and mysterious locations
-- **🎲 Surprise Me**: Random place discovery with smooth animations
-- **🗝️ Secret Tip of the Week**: Weekly rotating insider tips
-- **📱 Responsive Design**: Works on desktop, tablet, and mobile
-- **🎨 Modern UI**: Glassmorphism design with beautiful gradients
+- `flask_app.py`: Flask API server. Loads `mental_detox_dataset.csv` and exposes endpoints.
+- `streamlit_app.py`: Streamlit frontend. Fetches issues and random entries from Flask.
+- `requirements.txt`: Python dependencies for both backend and frontend.
+- `mental_detox_dataset.csv`: Your dataset. Place this file next to `flask_app.py`.
 
-## 🚀 Quick Start
+## CSV Format
 
-### Prerequisites
-- Node.js (version 14 or higher)
-- npm or yarn
+Required columns:
+- `issue`
+- `quote`
+- `reference`
+- `video_title`
+- `video_link`
+- `tip`
 
-### Installation
+## Setup
 
-1. **Download and extract the project files**
-2. **Navigate to the project directory:**
-   ```bash
-   cd pune-hidden-gems
-   ```
+1. Ensure Python 3.9+ is installed.
+2. Create and activate a virtual environment (recommended):
 
-3. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-4. **Start the development server:**
-   ```bash
-   npm start
-   ```
-
-5. **Open your browser and visit:** `http://localhost:3000`
-
-## 📦 Deployment Options
-
-### Option 1: Static Hosting (Recommended)
-The build folder contains optimized static files that can be hosted on:
-- **Netlify**: Drag and drop the `build` folder
-- **Vercel**: Connect your GitHub repo or upload the build folder
-- **GitHub Pages**: Upload the build folder contents
-- **Any web server**: Upload the build folder contents
-
-### Option 2: Local Server
 ```bash
-npm install -g serve
-serve -s build
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 ```
 
-## 📁 Project Structure
+3. Install dependencies:
 
-```
-pune-hidden-gems/
-├── public/
-│   ├── index.html
-│   └── places (1).csv          # Your places data
-├── src/
-│   ├── App.js                  # Main application component
-│   ├── index.js               # React entry point
-│   └── index.css              # Styles
-├── build/                     # Production build (after npm run build)
-├── package.json
-└── README.md
+```bash
+pip install -r requirements.txt
 ```
 
-## 🗂️ Data Format
+4. Ensure `mental_detox_dataset.csv` is present in the same directory as `flask_app.py`.
 
-The application reads from `places (1).csv` with these columns:
-- `id`: Unique identifier
-- `name`: Place name
-- `category`: Type of place
-- `description`: Brief description
-- `location`: Address/location
-- `coordinates`: GPS coordinates
-- `facts`: Interesting facts
-- `rules`: Safety tips and rules
-- `spooky`: Boolean for haunted places
-- `distance_from_pune_km`: Distance from Pune
-- `best_time_to_visit`: Recommended visiting time
-- `map_link`: Google Maps link
+## Running
 
-## 🎨 Customization
+Open two terminals (or run them in background processes):
 
-### Adding New Places
-Edit the `public/places (1).csv` file and add new rows with the required columns.
-
-### Changing Categories
-Modify the `categories` array in `src/App.js`:
-```javascript
-const categories = [
-  { id: 'your-category', name: 'Your Category', icon: '🎯' },
-  // ... other categories
-];
+### Backend (Flask on port 5000)
+```bash
+python flask_app.py
 ```
 
-### Updating Secret Tips
-Edit the `secretTips` array in `src/App.js` to add your own tips.
+- Health check: `GET http://localhost:5000/health`
+- List issues: `GET http://localhost:5000/issues`
+- Random data by issue: `GET http://localhost:5000/get_data?issue=Anxiety`
 
-## 🛠️ Available Scripts
+### Frontend (Streamlit on port 8501)
+```bash
+streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+```
 
-- `npm start` - Start development server
-- `npm run build` - Create production build
-- `npm test` - Run tests
-- `npm run eject` - Eject from Create React App
+The frontend expects the backend at `http://localhost:5000`. To override, set `BACKEND_URL`:
+```bash
+BACKEND_URL="http://127.0.0.1:5000" streamlit run streamlit_app.py
+```
 
-## 📱 Browser Support
+## Notes
 
-- Chrome (recommended)
-- Firefox
-- Safari
-- Edge
+- Random selection is performed per request using `pandas.DataFrame.sample(n=1)`.
+- CORS is enabled on all routes for simplicity, allowing access from Streamlit and browsers.
+- The app gracefully handles missing video links by showing a helpful message instead of an embedded video.
+- If the CSV is missing required columns or is not found, `/issues` will return an error and the frontend will display an error message.
 
-## 🤝 Contributing
+## Troubleshooting
 
-Feel free to fork this project and submit pull requests for improvements!
+- If Streamlit shows "Could not load issues": ensure Flask is running and accessible, then refresh the issues via the button or reload the page.
+- If you run on different hosts/ports: set `BACKEND_URL` environment variable for the frontend accordingly.
+- For YouTube links, supported formats include:
+  - `https://www.youtube.com/watch?v=VIDEO_ID`
+  - `https://youtu.be/VIDEO_ID`
+  - `https://www.youtube.com/embed/VIDEO_ID`
+  - `https://www.youtube.com/shorts/VIDEO_ID`
 
-## 📄 License
+## Production
 
-This project is open source and available under the MIT License.
-
----
-
-**Enjoy exploring Pune's hidden gems! 🏛️👻**
+- Consider running Flask via a production WSGI server (e.g., gunicorn) behind a reverse proxy.
+- Disable debug in production (already disabled).
+- Add input validation and rate limiting as needed.
