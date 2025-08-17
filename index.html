@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mind Detox</title>
+    <link rel="preload" as="image" href="assets/mental-detox.jpg">
+    <link rel="preload" as="image" href="assets/Self_love.jpg">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="intro-hero" class="hero" role="img" aria-label="Soft sunrise over water, calming intro">
+      <div class="hero-layer">
+        <img src="assets/mental-detox.jpg" alt="Calm landscape for mental detox intro" class="hero-img" />
+      </div>
+      <div class="hero-overlay">
+        <h1 class="hero-title">Let’s detox your mind.</h1>
+        <button id="skipIntro" class="btn btn-link skip-intro" aria-label="Skip intro">Skip intro</button>
+      </div>
+    </div>
+
+    <main id="app" class="app hidden" aria-live="polite">
+      <div class="progress" aria-label="Detox session progress">
+        <div id="progressFill" class="progress-fill" style="width:0%"></div>
+      </div>
+
+      <section class="container">
+        <div class="left-column" aria-label="Controls and selection">
+          <header class="page-header">
+            <h2 class="title">Mind Detox</h2>
+            <p class="subtitle">One small step is enough today.</p>
+          </header>
+
+          <div class="controls">
+            <label class="field">
+              <span class="label">Select Issue</span>
+              <select id="issueSelect" aria-label="Select Issue"></select>
+            </label>
+
+            <label class="field">
+              <span class="label">Select Language</span>
+              <select id="languageSelect" aria-label="Select Language" disabled></select>
+            </label>
+
+            <div class="actions">
+              <button id="startBtn" class="btn" disabled>Start Detox</button>
+              <button id="resetBtn" class="btn btn-secondary" disabled>Reset Session</button>
+            </div>
+
+            <div class="session-meta" role="status" aria-live="polite">
+              <span id="phaseLabel">Ready</span>
+              <span id="timeRemaining" class="time">15:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <div class="anchor-wrapper" aria-hidden="true">
+            <img src="assets/Self_love.jpg" alt="Soothing, gentle self-love visual" class="anchor-img" />
+          </div>
+
+          <div id="contentArea" class="content-area" role="region" aria-label="Detox content">
+            <div id="phase1" class="phase hidden" data-phase="1">
+              <h3 class="phase-title">Phase 1 · Watch / Listen</h3>
+              <div class="card video-card">
+                <div id="videoContainer" class="video-container" aria-live="polite"></div>
+                <div class="source">
+                  <span class="badge" id="videoSource">Source</span>
+                  <button id="videoMore" class="tiny-link" aria-label="Show another video">Show more</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="phase2" class="phase hidden" data-phase="2">
+              <h3 class="phase-title">Phase 2 · Reflect</h3>
+              <div class="card quote-card">
+                <div class="breathing-orb" aria-hidden="true"></div>
+                <blockquote id="quoteText" class="quote" aria-live="polite">Take a deep breath.</blockquote>
+                <div class="source">
+                  <span class="badge" id="quoteSource">Source</span>
+                  <button id="quoteMore" class="tiny-link" aria-label="Show another quote">Show more</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="phase3" class="phase hidden" data-phase="3">
+              <h3 class="phase-title">Phase 3 · Apply</h3>
+              <div class="card tips-card">
+                <ul id="tipsList" class="tips-list" aria-live="polite"></ul>
+                <div class="tips-actions">
+                  <button id="tipsMore" class="tiny-link" aria-label="Show more tips">Show more</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="emptyState" class="empty hidden" role="status">
+              <p>No content found. Try a different issue or language.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
